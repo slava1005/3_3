@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cache-application
+  namespace: app
+spec:
+  selector:
+    matchLabels:
+      app: cache
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cache
+    spec:
+      containers:
+      - name: multitool
+        image: wbitt/network-multitool
+        ports:
+        - containerPort: 8080
+        env:
+          - name: HTTP_PORT
+            value: "1180"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: network-service
+  namespace: app
+spec:
+  selector:
+    app: cache-svc
+  ports:
+    - protocol: TCP
+      name: multitool
+      port: 9002
+      targetPort: 1180
