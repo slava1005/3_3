@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: front-to-back
+  namespace: app
+spec:
+  podSelector:
+    matchLabels:
+      app: back
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: front
+      ports:
+        - protocol: TCP
+          port: 1180
