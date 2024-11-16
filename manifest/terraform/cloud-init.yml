@@ -1,0 +1,22 @@
+#cloud-config
+users:
+  - name: ubuntu
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+package_update: true
+package_upgrade: false
+packages:
+ - mc
+ - git
+ - atop
+ - ncdu
+ - net-tools
+ - apt-transport-https
+ - snapd
+ - traceroute
+
+runcmd:
+  - snap install kubectl --classic
